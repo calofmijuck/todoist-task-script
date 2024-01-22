@@ -1,7 +1,8 @@
-from todoist_api_python.api import TodoistAPI
 import yaml
+from todoist_api_python.api import TodoistAPI
 
 from task_script.schema import TodoistTaskInfo
+
 
 class YamlTaskAdder:
     """

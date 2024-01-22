@@ -31,7 +31,7 @@ def main(args: argparse.Namespace):
     api = TodoistAPI(TODOIST_API_KEY)
 
     if args.csv:
-        if args.project == None:
+        if args.project is None:
             raise ValueError("project_id required for CSV files")
 
         csv_task_adder = CsvTaskAdder(api, args.project, args.tasks)

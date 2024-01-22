@@ -1,5 +1,6 @@
-from todoist_api_python.api import TodoistAPI
 from typing import Any
+
+from todoist_api_python.api import TodoistAPI
 
 
 class TodoistProject:
@@ -20,8 +21,8 @@ class TodoistProject:
         Only works if project id is None and name is not None
         """
 
-        assert self.id == None
-        assert self.name != None
+        assert self.id is None
+        assert self.name is not None
 
         project = api.add_project(name=self.name)
         self.id = project.id
@@ -54,6 +55,7 @@ class TodoistTask:
     ):
         task = api.add_task(
             content=self.content,
+            description=self.description,
             project_id=project_id,
             section_id=section_id,
             parent_id=parent_id,
@@ -76,13 +78,13 @@ class TodoistSection:
         self.tasks = [TodoistTask(task_data) for task_data in data.get("tasks", [])]
 
     def add_section(self, api: TodoistAPI, project_id: str):
-        assert project_id != None
+        assert project_id is not None
 
         section = api.add_section(project_id=project_id, name=self.name)
         self.add_tasks(api, project_id, section.id)
 
     def add_tasks(self, api: TodoistAPI, project_id: str, section_id: str):
-        assert project_id != None
+        assert project_id is not None
 
         for task in self.tasks:
             task.add_task(api, project_id, section_id, None)
@@ -104,10 +106,10 @@ class TodoistTaskInfo:
         Add everything contained in the `TodoistTaskInfo` object.
         """
 
-        if self.project.id == None:
+        if self.project.id is None:
             self.project.add_project(api)
 
-        assert self.project.id != None
+        assert self.project.id is not None
 
         for section in self.sections:
             section.add_section(api, self.project.id)
