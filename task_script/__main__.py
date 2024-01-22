@@ -12,6 +12,7 @@ import argparse
 from todoist_api_python.api import TodoistAPI
 
 from task_script.csv import CsvTaskAdder
+from task_script.yaml import YamlTaskAdder
 
 from .constants import TODOIST_API_KEY
 
@@ -19,7 +20,7 @@ from .constants import TODOIST_API_KEY
 parser = argparse.ArgumentParser()
 parser.add_argument("--tasks", type=str, required=True, help="Location of task file")
 parser.add_argument("--csv", action='store_true', help="Whether the file is in csv format")
-parser.add_argument("--project", type=str, required=True, help="Whether the file is in csv format")
+parser.add_argument("--project", type=str, required=False, help="Whether the file is in csv format")
 # fmt: on
 
 
@@ -30,14 +31,14 @@ def main(args: argparse.Namespace):
     api = TodoistAPI(TODOIST_API_KEY)
 
     if args.csv:
+        if args.project == None:
+            raise ValueError("project_id required for CSV files")
+
         csv_task_adder = CsvTaskAdder(api, args.project, args.tasks)
         csv_task_adder.run()
     else:
-        # TODO: handle_yaml(api)
-        pass
-
-    # with open(args.tasks, "r", encoding="utf-8") as f:
-    #     tasks = yaml.load(f, Loader=yaml.BaseLoader)
+        yaml_task_adder = YamlTaskAdder(api, args.tasks)
+        yaml_task_adder.run()
 
     print("Done! Let's go finish some tasks! ✨ 🍰 ✨")
 
