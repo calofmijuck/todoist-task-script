@@ -18,6 +18,8 @@ When using CSV files, `project_id` must be given separately.
 
 ## Usage
 
+First, set `TODOIST_API_KEY` in `.env`.
+
 ```bash
 poetry install
 
