@@ -8,9 +8,9 @@ class TodoistProject:
     id: str | None
 
     def __init__(self, data: dict[str, Any]):
-        name, id = data.get("name", ""), data.get("id", "")
+        name, id = data.get("name", None), data.get("id", None)
 
-        if not ((name == "") ^ (id == "")):
+        if not ((name is None) ^ (id is None)):
             raise ValueError("only specify either one of project name or id")
 
         self.name = name
