@@ -8,7 +8,7 @@ Mainly supports YAML files, but CSV also works.
 
 YAML schema mainly follows the deverloper docs, but contains additional hierarchy of subtasks.
 
-Refer to `scripts/sample.yaml` for further details.
+Refer to `samples/sample.yaml` for further details.
 
 ## CSV
 
@@ -22,8 +22,8 @@ When using CSV files, `project_id` must be given separately.
 poetry install
 
 # yaml
-python -m task_script --tasks "scripts/sample.yaml"
+python -m task_script --tasks "samples/sample.yaml"
 
 # csv
-python -m task_script --tasks "scripts/sample.csv" --csv --project "project-id"
+python -m task_script --tasks "samples/sample.csv" --csv --project "project-id"
 ```
