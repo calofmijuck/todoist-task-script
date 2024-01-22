@@ -1,13 +1,13 @@
 import csv
 from typing import Any
 
-from todoist_api_python.api import Task, TodoistAPI
+from todoist_api_python.api import TodoistAPI
 from tqdm import tqdm
 
 
 class CsvTaskAdder:
     """
-    CsvTaskAdder adds tasks from CSV file.
+    CsvTaskAdder adds tasks from CSV files.
 
     Note: does not set `section_id` back to `None`,
     so tasks without sections must be put first in the csv file.
@@ -18,13 +18,13 @@ class CsvTaskAdder:
     task_file: str
 
     section_id: str | None
-    parent_task_ids: list[int]
+    parent_task_ids: list[str | None]
 
-    def __init__(self, api, project_id, task_file) -> "CsvTaskAdder":
+    def __init__(self, api: TodoistAPI, project_id: str, task_file: str):
         self.api = api
         self.project_id = project_id
         self.task_file = task_file
-        self.parent_task_ids = [None, 0, 0, 0, 0]
+        self.parent_task_ids = [None] * 5
         self.section_id = None
 
     def run(self):
@@ -34,16 +34,16 @@ class CsvTaskAdder:
             for row in tqdm(reader):
                 match row["TYPE"]:
                     case "section":
-                        self.create_section(row)
+                        self.add_section(row)
 
                     case "task":
-                        self.create_task(row)
+                        self.add_task(row)
 
-    def create_section(self, row: dict[str, Any]):
+    def add_section(self, row: dict[str, Any]):
         section = self.api.add_section(project_id=self.project_id, name=row["CONTENT"])
         self.section_id = section.id
 
-    def create_task(self, row: dict[str, Any]) -> Task:
+    def add_task(self, row: dict[str, Any]):
         level = int(row.get("INDENT", 1)) - 1
         task = self.api.add_task(
             content=row["CONTENT"],
