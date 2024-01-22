@@ -1,0 +1,5 @@
+TYPE,CONTENT,DESCRIPTION,PRIORITY,INDENT,AUTHOR,RESPONSIBLE,DATE,DATE_LANG,TIMEZONE,DURATION,DURATION_UNIT
+task,taskname,task description,1,1,,,,,,,
+task,subtask1,subtask one,2,2,,,Next Monday,,,,
+task,subsubtask,subsubtask,3,3,,,Tomorrow,,,,
+task,subtask2,subtask two,4,2,,,Every day,,,,
