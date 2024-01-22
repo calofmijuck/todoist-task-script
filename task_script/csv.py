@@ -2,7 +2,6 @@ import csv
 from typing import Any
 
 from todoist_api_python.api import TodoistAPI
-from tqdm import tqdm
 
 
 class CsvTaskAdder:
@@ -31,7 +30,7 @@ class CsvTaskAdder:
         with open(self.task_file, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
 
-            for row in tqdm(reader):
+            for row in reader:
                 match row["TYPE"]:
                     case "section":
                         self.add_section(row)
