@@ -1,0 +1,27 @@
+project:
+  # only use one of name or id
+  # should use `id` if project already exists
+  name: test-project
+  # id: project-id
+sections:
+- name: section1
+  # tasks under this section
+  tasks:
+  - content: task_name1
+    description: this is the task description
+    labels: ["label1", "label2"]
+    priority: 1 # 1 : lowest, 4 : highest
+    due: tomorrow # any human-defined string just as it is done on the todoist app
+  - content: task_with_subtasks
+    description: this task has subtasks
+    # subtasks have the same schema as parent tasks
+    subtasks:
+    - content: subtask_name
+      description: this is a subtask
+      priority: 3
+      date: 2025-01-27 # yyyy-mm-dd format
+tasks: # a task not in any section
+- content: task_with_no_section
+  description: this is a task not included in any section
+  due: Next Monday
+  priority: 2
