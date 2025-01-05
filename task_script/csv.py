@@ -44,13 +44,16 @@ class CsvTaskAdder:
 
     def add_task(self, row: dict[str, Any]):
         level = int(row.get("INDENT", 1)) - 1
-        task = self.api.add_task(
-            content=row["CONTENT"],
-            description=row["DESCRIPTION"],
-            priority=row["PRIORITY"],
-            due_string=row["DATE"],
-            project_id=self.project_id,
-            section_id=self.section_id,
-            parent_id=self.parent_task_ids[level],
-        )
+        try:
+            task = self.api.add_task(
+                content=row["CONTENT"],
+                description=row["DESCRIPTION"],
+                priority=row.get("PRIORITY", 1),
+                due_string=row["DATE"],
+                project_id=self.project_id,
+                section_id=self.section_id,
+                # parent_id=self.parent_task_ids[level],
+            )
+        except Exception as e:
+            print(e)
         self.parent_task_ids[level + 1] = task.id
