@@ -1,3 +1,4 @@
+import time
 from typing import Any
 
 from todoist_api_python.api import TodoistAPI
@@ -53,17 +54,27 @@ class TodoistTask:
         section_id: str | None,
         parent_id: str | None,
     ):
-        task = api.add_task(
-            content=self.content,
-            description=self.description,
-            project_id=project_id,
-            section_id=section_id,
-            parent_id=parent_id,
-            labels=self.labels,
-            priority=self.priority,
-            due_string=self.due,
-            due_date=self.date,
-        )
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                task = api.add_task(
+                    content=self.content,
+                    description=self.description,
+                    project_id=project_id,
+                    section_id=section_id,
+                    parent_id=parent_id,
+                    labels=self.labels,
+                    priority=self.priority,
+                    due_string=self.due,
+                    due_date=self.date,
+                )
+                break
+            except Exception as e:
+                print(f"Error adding task: {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(2**attempt)  # Exponential backoff
+                else:
+                    raise e
 
         for subtask in self.subtasks:
             subtask.add_task(api, project_id, section_id, task.id)
